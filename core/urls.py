@@ -17,5 +17,5 @@ urlpatterns = [
     path('get_products_by_color/<str:color>', get_products_by_color),
     path('get_products_by_price/<str:price>', get_products_by_price),
     path('get_products/get_products_by_img/<str:img_url>', get_products_by_img),
-    path('get_products/get_products_by_name/<str:nmae', get_products_by_name),
+    path('get_products_by_name/<str:name>', get_products_by_name),
 ]
