@@ -1,20 +1,16 @@
-<html>
-    <head>
-        <title>My app</title>
-    </head>
-    <body>
+{% extends "url.html" %}
+{% block sidebar %}
         <h1>My app</h1>
         <p>My app is Django app.</p>
         <ul>
-            {% for item in data %}
+            {% for item in data1 %}
                 <li>name:{{item.name}}</li>
-                <li>RAM:<{{item.RAM}}</li>
-                <li>company:{{item.company}}</li>
-                <li>color{{item.color}}</li>
-                <li>memory{{item.memory}}</li>
-                <li>price{{item.price}}</li>
-                <li><img src="{{item.img_url}}" alt="Ogabek" width="150" height="250"></li>
+                <li>RAM:{{item.RAM}}</li>
+                <!-- <li>company:{{item.company}}</li> -->
+                <li>color:{{item.color}}</li>
+                <li>memory:{{item.memory}}</li>
+                <li>price:{{item.price}}</li>
+                <li><img src="{{ item.img_url }}" alt="Ogabek" width="150" height="250"></li>
             {% endfor%}
-        </ul>
-    </body>
-</html>
+{% endblock %}
+ 
