@@ -1,5 +1,7 @@
 from itertools import product
+from math import prod
 import re
+from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from multiprocessing import context
@@ -43,14 +45,18 @@ def add(request):
     db.save()
     return JsonResponse({'ok':True})
 
-def get_company(reqiest,company):
+def get_company(reqiest,gre):
     if reqiest.method=='GET':
-        products = Product.objects.filter(company=company)
+        products = Product.objects.filter(company=gre)
+        products1=Product.objects.values('company')
         products_json = []
+        product_set=set()
         for product in products:
             products_json.append(convert_to_json(product))
-
-        context ={'data':products_json}
+            
+        for i in products1:
+            product_set.add(i['company'])
+        context ={'data1':products_json,"data":list(product_set)}
 
     return render(reqiest, 'index.html',context=context)
 
@@ -61,7 +67,7 @@ def get_RAM(reqiest,RAM):
         for product in products:
             products_json.append(convert_to_json(product))
 
-        context={'data':products_json}
+        context={'data1':products_json}
     return render(reqiest, 'index.html',context=context)
 
 def get_products_by_color(reqiest,color):
@@ -71,7 +77,7 @@ def get_products_by_color(reqiest,color):
         for product in products:
             products_json.append(convert_to_json(product))
 
-        context={'data':products_json}
+        context={'data1':products_json}
     return render(reqiest, 'index.html',context=context)
 
 def get_products_by_price(reqiest,price):
@@ -81,7 +87,17 @@ def get_products_by_price(reqiest,price):
         for product in products:
             products_json.append(convert_to_json(product))
         
-        context={'data':products_json}
+        context={'data1':products_json}
+    return render(reqiest, 'index.html', context=context)
+
+def get_oraliq_price(reqiest,price):
+    if reqiest.method=="GET":
+        products=Product.objects.filter(id__gt=price)
+        products_json=[]
+        for product in products:
+            products_json.append(convert_to_json(product))
+
+        context={"data1":products_json}
     return render(reqiest, 'index.html', context=context)
 
 def get_products_by_img(reqiest,img_url):
@@ -91,7 +107,7 @@ def get_products_by_img(reqiest,img_url):
         for product in products:
             products_json.append(convert_to_json(product))
         
-        context={'data':products_json}
+        context={'data1':products_json}
     return render(reqiest, 'index.html', context=context)
 
 def get_products_by_name(reqiest,name):
@@ -101,5 +117,16 @@ def get_products_by_name(reqiest,name):
         for product in products:
             products_json.append(convert_to_json(product))
         
-        context={'data':products_json}
+        context={'data1':products_json}
     return render(reqiest, 'index.html', context=context)
+
+def companyes(requiest):
+    if requiest.method=="GET":
+        products=Product.objects.values('company')
+        product_set=set()
+        for i in products:
+            product_set.add(i['company'])
+        
+        context={"data":list(product_set)}
+        return render(requiest, 'url.html', context=context)
+
